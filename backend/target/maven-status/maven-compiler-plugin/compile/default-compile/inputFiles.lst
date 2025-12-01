@@ -1,0 +1,10 @@
+C:\Users\renan\Consumir-API\backend\src\main\java\com\exemplo\scraping\ApiApplication.java
+C:\Users\renan\Consumir-API\backend\src\main\java\com\exemplo\scraping\App.java
+C:\Users\renan\Consumir-API\backend\src\main\java\com\exemplo\scraping\config\WebDriverConfig.java
+C:\Users\renan\Consumir-API\backend\src\main\java\com\exemplo\scraping\controller\ScrapController.java
+C:\Users\renan\Consumir-API\backend\src\main\java\com\exemplo\scraping\model\ScrapRequest.java
+C:\Users\renan\Consumir-API\backend\src\main\java\com\exemplo\scraping\model\Vaga.java
+C:\Users\renan\Consumir-API\backend\src\main\java\com\exemplo\scraping\service\BneScraper.java
+C:\Users\renan\Consumir-API\backend\src\main\java\com\exemplo\scraping\service\BneScrapper.java
+C:\Users\renan\Consumir-API\backend\src\main\java\com\exemplo\scraping\service\HtmlGenerator.java
+C:\Users\renan\Consumir-API\backend\src\main\java\com\exemplo\scraping\service\ScrapService.java

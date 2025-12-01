@@ -1,0 +1,10 @@
+com\exemplo\scraping\service\HtmlGenerator.class
+com\exemplo\scraping\ApiApplication.class
+com\exemplo\scraping\config\WebDriverConfig.class
+com\exemplo\scraping\service\BneScrapper.class
+com\exemplo\scraping\model\Vaga.class
+com\exemplo\scraping\controller\ScrapController.class
+com\exemplo\scraping\service\BneScraper.class
+com\exemplo\scraping\App.class
+com\exemplo\scraping\model\ScrapRequest.class
+com\exemplo\scraping\service\ScrapService.class
