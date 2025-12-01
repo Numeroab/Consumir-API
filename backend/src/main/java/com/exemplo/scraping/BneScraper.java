@@ -11,12 +11,14 @@ import org.openqa.selenium.WebElement;
 import com.exemplo.scraping.model.Vaga;
 
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BneScraper {
+    
+    // Adicionando constante para a fonte
+    private static final String FONTE = "BNE";
 
     public static List<Vaga> buscar(WebDriver driver, String termo) {
         List<Vaga> resultados = new ArrayList<>();
@@ -59,9 +61,10 @@ public class BneScraper {
                         Float salario = extrairSalarioExpandido(docExpandido);
 
                         if (!titulo.isEmpty()) {
-                            resultados.add(new Vaga(titulo, empresa, salario, fonte));
+                            // CORREÇÃO AQUI: usando a constante FONTE
+                            resultados.add(new Vaga(titulo, empresa, salario, FONTE));
 
-                            String statusSalario = salario != null ? "R$ " + salario : "A combinar";
+                            String statusSalario = salario != null ? String.format("R$ %.2f", salario) : "A combinar";
                             System.out.println(" " + titulo + " | " + empresa + " | Salário: " + statusSalario);
                             System.out.println();
                         }
@@ -131,8 +134,8 @@ public class BneScraper {
                 Elements elementos = docExpandido.select(seletor);
                 for (Element el : elementos) {
                     String texto = el.text();
-                    if (texto.contains("R$") && (texto.contains("1.600") || texto.contains("3.000")
-                            || texto.contains("1600") || texto.contains("3000"))) {
+                    // Removi a validação restritiva para capturar todos os salários
+                    if (texto.contains("R$")) {
                         System.out.println(" Encontrado possível salário: " + texto);
                         Float salario = extrairValorNumerico(texto);
                         if (salario != null) {
@@ -168,16 +171,26 @@ public class BneScraper {
                 String valor = matcher.group(1).replace(".", "").replace(",", ".").trim();
                 Float salario = Float.parseFloat(valor);
 
-                // FILTRA 3500
-                if (salario != 3500f) {
-                    System.out.println(" Salário real detectado: R$ " + salario);
-                    return salario;
-                }
+                // Removi o filtro do 3500 para capturar todos os valores
+                System.out.println(" Salário detectado: R$ " + salario);
+                return salario;
             }
+            
+            // Tentar encontrar outros padrões de salário
+            Pattern padraoSimples = Pattern.compile("([0-9]+(?:\\.[0-9]{3})*(?:,[0-9]{2})?)\\s*(?:reais|R\\$)", 
+                    Pattern.CASE_INSENSITIVE);
+            matcher = padraoSimples.matcher(texto);
+            
+            if (matcher.find()) {
+                String valor = matcher.group(1).replace(".", "").replace(",", ".").trim();
+                Float salario = Float.parseFloat(valor);
+                System.out.println(" Salário alternativo detectado: " + salario);
+                return salario;
+            }
+            
         } catch (Exception e) {
-            // Ignora erro
+            System.err.println(" Erro ao converter valor: " + e.getMessage());
         }
         return null;
     }
-
 }
