@@ -4,6 +4,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import com.exemplo.scraping.model.Vaga;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -23,18 +25,9 @@ public class App {
             WebDriver driver = new ChromeDriver(options);
 
             try {
-                // System.out.println("\n=== GLASSDOOR ===");
-                // Login.loginGlassdoor(driver);
-                // List<Vaga> glassdoor = GlassdoorScraper.buscar(driver, termo);
-
-                // System.out.println("\n=== INDEED ===");
-                // List<Vaga> indeed = IndeedScraper.buscar(driver, termo);
-
                 System.out.println("\n=== BNE ===");
                 List<Vaga> bne = BneScraper.buscar(driver, termo);
 
-            
-                // Gerar HTML com todas as vagas
                 HtmlGenerator.gerarRelatorio(termo, new ArrayList<>(), bne, new ArrayList<>());
                 // HtmlGenerator.gerarRelatorio(termo, new ArrayList<>(), new ArrayList<>(),
                 // indeed);

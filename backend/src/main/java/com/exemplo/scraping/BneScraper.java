@@ -7,6 +7,9 @@ import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import com.exemplo.scraping.model.Vaga;
+
 import java.util.ArrayList;
 
 import java.util.List;
@@ -56,7 +59,7 @@ public class BneScraper {
                         Float salario = extrairSalarioExpandido(docExpandido);
 
                         if (!titulo.isEmpty()) {
-                            resultados.add(new Vaga(titulo, empresa, salario));
+                            resultados.add(new Vaga(titulo, empresa, salario, fonte));
 
                             String statusSalario = salario != null ? "R$ " + salario : "A combinar";
                             System.out.println(" " + titulo + " | " + empresa + " | Salário: " + statusSalario);

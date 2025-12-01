@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import com.exemplo.scraping.model.Vaga;
+
 public class HtmlGenerator {
 
     public static void gerarRelatorio(String termo,
