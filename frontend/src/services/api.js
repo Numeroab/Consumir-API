@@ -1,45 +1,53 @@
 import axios from 'axios'
 
+// Configuração do axios
 const api = axios.create({
-  baseURL: '/api', // Usando proxy do Vite
-  timeout: 30000,
+  baseURL: '/api',
+  timeout: 120000, // 2 minutos para o scraping
   headers: {
     'Content-Type': 'application/json'
   }
 })
 
-// Interceptores para tratamento de erros
-api.interceptors.response.use(
-  response => response,
-  error => {
-    if (error.code === 'ECONNABORTED') {
-      throw new Error('Tempo de requisição esgotado')
-    }
-    if (!error.response) {
-      throw new Error('Erro de conexão com o servidor')
-    }
-    throw error
-  }
-)
-
 export default {
-  // Buscar vagas
+  // Buscar vagas (tenta POST, depois GET)
   async searchJobs(term) {
     try {
-      return await api.post('/scrap', { termo: term })
-    } catch (error) {
-      // Fallback para GET se POST falhar
-      return await api.get('/scrap', { params: { termo: term } })
+      // Primeiro tenta POST
+      const response = await api.post('/scrap', { termo: term })
+      return response.data
+    } catch (postError) {
+      console.log('POST falhou, tentando GET...')
+      try {
+        // Se POST falhar, tenta GET
+        const response = await api.get('/scrap', {
+          params: { termo: term }
+        })
+        return response.data
+      } catch (getError) {
+        console.error('GET também falhou:', getError)
+        throw getError
+      }
     }
   },
   
-  // Testar conexão com API
+  // Testar conexão
   async testConnection() {
-    return await api.get('/teste')
+    try {
+      const response = await api.get('/teste')
+      return response.data
+    } catch (error) {
+      throw error
+    }
   },
   
   // Saudação
   async getGreeting(nome) {
-    return await api.get(`/saudacao/${nome}`)
+    try {
+      const response = await api.get(`/saudacao/${nome}`)
+      return response.data
+    } catch (error) {
+      throw error
+    }
   }
 }

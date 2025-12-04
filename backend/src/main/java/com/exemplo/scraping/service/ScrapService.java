@@ -26,7 +26,7 @@ public class ScrapService {
         try {
             driver = webDriverFactory.getObject();
             
-            // Executa o scraping do BNE
+            // ✅ CORREÇÃO: Chamada estática (sem 'new')
             List<Vaga> bneVagas = BneScrapper.buscar(driver, termo);
 
             // Converte para formato de resposta

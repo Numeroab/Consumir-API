@@ -15,8 +15,8 @@
     </div>
     <div class="search-suggestions">
       <span>Sugestões:</span>
-      <button 
-        v-for="suggestion in suggestions" 
+      <button
+        v-for="suggestion in suggestions"
         :key="suggestion"
         @click="searchSuggestion(suggestion)"
         class="suggestion-tag"
@@ -40,20 +40,22 @@ export default {
       'Engenheiro',
       'Designer',
       'Marketing',
-      'Vendas'
+      'Vendas',
+      'Recepcionista',
+      'Professor'
     ]
-    
+   
     const performSearch = () => {
       if (localTerm.value.trim()) {
         emit('search', localTerm.value.trim())
       }
     }
-    
+   
     const searchSuggestion = (suggestion) => {
       localTerm.value = suggestion
       performSearch()
     }
-    
+   
     return {
       localTerm,
       suggestions,

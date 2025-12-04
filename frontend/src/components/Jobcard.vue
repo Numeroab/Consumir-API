@@ -6,21 +6,21 @@
         <span class="company">{{ vaga.empresa }}</span>
       </div>
       <div class="job-source">
-        <span class="source-badge" :class="vaga.fonte.toLowerCase()">
+        <span class="source-badge" :class="getSourceClass(vaga.fonte)">
           {{ vaga.fonte }}
         </span>
       </div>
     </div>
-    
+   
     <div class="job-details">
       <div class="detail-item">
         <i class="pi pi-money-bill"></i>
         <div>
           <span class="detail-label">Salário</span>
-          <span class="detail-value salary">{{ vaga.salarioFormatado }}</span>
+          <span class="detail-value salary">{{ formatSalary(vaga.salario) }}</span>
         </div>
       </div>
-      
+     
       <div class="detail-item">
         <i class="pi pi-building"></i>
         <div>
@@ -29,7 +29,7 @@
         </div>
       </div>
     </div>
-    
+   
     <div class="job-actions">
       <button class="action-btn apply">
         <i class="pi pi-external-link"></i>
@@ -62,10 +62,28 @@ export default {
   },
   setup(props) {
     const toast = useToast()
+   
+    const formatSalary = (salario) => {
+      if (!salario || salario === 0) {
+        return 'A combinar'
+      }
+      return new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+      }).format(salario)
+    }
     
+    const getSourceClass = (fonte) => {
+      const fonteLower = fonte.toLowerCase()
+      if (fonteLower.includes('bne')) return 'bne'
+      if (fonteLower.includes('glassdoor')) return 'glassdoor'
+      if (fonteLower.includes('indeed')) return 'indeed'
+      return 'default'
+    }
+   
     const shareJob = () => {
-      const shareText = `Vaga: ${props.vaga.titulo} na ${props.vaga.empresa} - ${props.vaga.salarioFormatado}`
-      
+      const shareText = `Vaga: ${props.vaga.titulo} na ${props.vaga.empresa} - ${formatSalary(props.vaga.salario)}`
+     
       if (navigator.share) {
         navigator.share({
           title: props.vaga.titulo,
@@ -77,13 +95,15 @@ export default {
         toast.add({
           severity: 'info',
           summary: 'Copiado!',
-          detail: 'Informações da vaga copiadas',
+          detail: 'Informações da vaga copiadas para a área de transferência',
           life: 2000
         })
       }
     }
-    
+   
     return {
+      formatSalary,
+      getSourceClass,
       shareJob
     }
   }
@@ -151,6 +171,11 @@ export default {
 .source-badge.indeed {
   background: #fed7d7;
   color: #742a2a;
+}
+
+.source-badge.default {
+  background: #e2e8f0;
+  color: #4a5568;
 }
 
 .job-details {

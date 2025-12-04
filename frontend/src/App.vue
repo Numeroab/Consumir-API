@@ -1,119 +1,137 @@
 <template>
   <div id="app">
-    <Toast />
-    <nav class="navbar">
-      <div class="nav-container">
-        <div class="logo">
-          <i class="pi pi-search" style="font-size: 1.5rem"></i>
-          <h1>JobScraper</h1>
-        </div>
-        <div class="nav-links">
-          <router-link to="/" class="nav-link">
-            <i class="pi pi-home"></i> Início
-          </router-link>
-          <a href="#" class="nav-link" @click="showStats = !showStats">
-            <i class="pi pi-chart-bar"></i> Estatísticas
-          </a>
-        </div>
+    <header class="app-header">
+      <div class="container">
+        <h1>JobScraper</h1>
+        <p class="subtitle">Busca de vagas em tempo real</p>
       </div>
-    </nav>
+    </header>
     
-    <router-view />
+    <main class="app-main">
+      <div class="container">
+        <HomeView />
+      </div>
+    </main>
     
-    <footer class="footer">
-      <p>© 2024 JobScraper - Todos os direitos reservados</p>
-      <p>API de scraping de vagas em tempo real</p>
+    <footer class="app-footer">
+      <div class="container">
+        <p>© 2024 JobScraper - API de Scraping</p>
+        <p class="api-status">
+          API Status: 
+          <span :class="apiStatusClass">{{ apiStatusText }}</span>
+        </p>
+      </div>
     </footer>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
-import Toast from 'primevue/toast'
+import { ref, onMounted } from 'vue'
+import HomeView from './views/HomeView.vue'
+import api from './services/api'
 
 export default {
+  name: 'App',
   components: {
-    Toast
+    HomeView
   },
   setup() {
-    const showStats = ref(false)
+    const apiStatusText = ref('Testando...')
+    const apiStatusClass = ref('status-testing')
+    
+    const testApiConnection = async () => {
+      try {
+        const result = await api.testConnection()
+        apiStatusText.value = 'Online '
+        apiStatusClass.value = 'status-online'
+        console.log('API conectada:', result)
+      } catch (error) {
+        apiStatusText.value = 'Offline '
+        apiStatusClass.value = 'status-offline'
+        console.error('API offline:', error)
+      }
+    }
+    
+    onMounted(() => {
+      testApiConnection()
+    })
     
     return {
-      showStats
+      apiStatusText,
+      apiStatusClass
     }
   }
 }
 </script>
 
-<style scoped>
-#app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.navbar {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 1rem 0;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  background-color: #f5f7fa;
+  color: #333;
+  line-height: 1.6;
 }
 
-.nav-container {
+.container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  padding: 0 20px;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.logo h1 {
-  margin: 0;
-  font-size: 1.8rem;
-  font-weight: 700;
-}
-
-.nav-links {
-  display: flex;
-  gap: 2rem;
-}
-
-.nav-link {
+.app-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  transition: background-color 0.3s;
+  padding: 2rem 0;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+.app-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
 }
 
-.footer {
+.subtitle {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+.app-main {
+  min-height: calc(100vh - 200px);
+  padding: 2rem 0;
+}
+
+.app-footer {
   background: #2d3748;
   color: white;
+  padding: 1.5rem 0;
   text-align: center;
-  padding: 2rem;
-  margin-top: auto;
 }
 
-.footer p {
+.app-footer p {
   margin: 0.5rem 0;
-  opacity: 0.8;
+}
+
+.api-status {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.status-testing {
+  color: #fbbf24;
+}
+
+.status-online {
+  color: #10b981;
+}
+
+.status-offline {
+  color: #ef4444;
 }
 </style>
