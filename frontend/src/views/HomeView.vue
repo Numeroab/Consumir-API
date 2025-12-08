@@ -45,21 +45,21 @@
     <!-- Estatísticas -->
     <div v-if="jobs.length > 0" class="stats-section">
       <div class="stat-card">
-        <div class="stat-icon">📊</div>
+       
         <div class="stat-content">
           <h3>{{ jobs.length }}</h3>
           <p>Vagas Encontradas</p>
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon">💰</div>
+        
         <div class="stat-content">
           <h3>{{ averageSalary }}</h3>
           <p>Salário Médio</p>
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon">🏢</div>
+
         <div class="stat-content">
           <h3>{{ uniqueCompanies }}</h3>
           <p>Empresas</p>
@@ -132,7 +132,6 @@
     <!-- Sem resultados -->
     <div v-else-if="hasSearched && !loading" class="no-results">
       <div class="no-results-content">
-        <div class="no-results-icon">📭</div>
         <h3>Nenhuma vaga encontrada</h3>
         <p>Tente buscar com outros termos</p>
         <button @click="resetSearch" class="retry-button">
@@ -575,9 +574,7 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.stat-icon {
-  font-size: 2rem;
-}
+
 
 .stat-content h3 {
   margin: 0;
@@ -804,11 +801,7 @@ export default {
   margin: 0 auto;
 }
 
-.no-results-icon {
-  font-size: 4rem;
-  margin-bottom: 1.5rem;
-  opacity: 0.5;
-}
+
 
 .no-results h3 {
   color: #2d3748;

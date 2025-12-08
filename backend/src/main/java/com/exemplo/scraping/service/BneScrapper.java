@@ -112,7 +112,7 @@ public class BneScrapper {
 //                 "https://www.bne.com.br/vagas-de-emprego-para-%s-em-cascavel-pr/?Page=1&CityName=cascavel-pr&Function=%s",
 //                 termoFormatado, termoFormatado);
 
-//             System.out.println("🔍 Acessando BNE: " + url);
+//             System.out.println("Acessando BNE: " + url);
 //             driver.get(url);
             
 //             // Aguarda carregamento inicial

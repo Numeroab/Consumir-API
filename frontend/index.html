@@ -145,7 +145,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>🔍 JobScraper</h1>
+        <h1>JobScraper</h1>
         
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="Digite o cargo (ex: desenvolvedor, analista)">
@@ -181,12 +181,12 @@
                     
                     if (response.ok) {
                         const data = await response.json();
-                        messageDiv.innerHTML = `<div class="success">✅ API Online! ${data.status} - Versão: ${data.versao}</div>`;
+                        messageDiv.innerHTML = `<div class="success"> API Online ${data.status} - Versão: ${data.versao}</div>`;
                     } else {
-                        messageDiv.innerHTML = '<div class="error">⚠️ API não está respondendo. Verifique se o backend está rodando.</div>';
+                        messageDiv.innerHTML = '<div class="error"> API não está respondendo. Verifique se o backend está rodando.</div>';
                     }
                 } catch (error) {
-                    messageDiv.innerHTML = '<div class="error">❌ Erro de conexão: ' + error.message + '</div>';
+                    messageDiv.innerHTML = '<div class="error"> Erro de conexão: ' + error.message + '</div>';
                 }
             }
             
@@ -222,7 +222,7 @@
                     displayResults(data);
                     
                 } catch (error) {
-                    resultDiv.innerHTML = `<div class="error">❌ Erro: ${error.message}</div>`;
+                    resultDiv.innerHTML = `<div class="error"> Erro: ${error.message}</div>`;
                     console.error('Erro:', error);
                 }
             }
@@ -254,11 +254,11 @@
                 }
                 
                 if (vagas.length === 0 || (vagas.length === 1 && !vagas[0].titulo)) {
-                    resultDiv.innerHTML = '<div class="error">⚠️ Nenhuma vaga encontrada para o termo buscado.</div>';
+                    resultDiv.innerHTML = '<div class="error"> Nenhuma vaga encontrada para o termo buscado.</div>';
                     return;
                 }
                 
-                messageDiv.innerHTML = `<div class="success">✅ Encontradas ${total} vagas</div>`;
+                messageDiv.innerHTML = `<div class="success"> Encontradas ${total} vagas</div>`;
                 
                 vagas.forEach(vaga => {
                     if (vaga.titulo) {
@@ -271,8 +271,8 @@
                         
                         jobDiv.innerHTML = `
                             <div class="job-title">${vaga.titulo}</div>
-                            <div class="job-company">🏢 ${vaga.empresa || 'Empresa não informada'}</div>
-                            <div class="job-salary">💰 ${salary}</div>
+                            <div class="job-company"> ${vaga.empresa || 'Empresa não informada'}</div>
+                            <div class="job-salary"> ${salary}</div>
                             <div style="margin-top: 5px; font-size: 12px; color: #a0aec0;">Fonte: ${vaga.fonte || 'BNE'}</div>
                         `;
                         
@@ -302,7 +302,7 @@
             testConnection();
             
             // Sugestões de busca
-            const suggestions = ['Desenvolvedor', 'Analista', 'Engenheiro', 'Designer', 'Vendedor'];
+            const suggestions = ['Desenvolvedor', 'Recepcionista', 'Engenheiro', 'Designer', 'Vendedor'];
             searchInput.placeholder = `Ex: ${suggestions.join(', ')}...`;
         });
     </script>
